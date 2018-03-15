@@ -93,7 +93,7 @@ if [ ! -z $CARD_READER ]; then
   sudo lsblk > lsblk.log
   
   # Perform backup using rsync
-  rsync -av --include="*/" --include "*.NEF" --include "*.JPG" --include "*.MOV" --exclude "*" $CARD_MOUNT_POINT/ $BACKUP_PATH
+  rsync -av --exclude "*.id" $CARD_MOUNT_POINT/ $BACKUP_PATH
 
   # Geocorrelate photos if a .gpx file exists
   cd $STORAGE_MOUNT_POINT
