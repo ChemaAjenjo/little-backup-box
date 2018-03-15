@@ -63,3 +63,16 @@ The [GNU General Public License version 3](http://www.gnu.org/licenses/gpl-3.0.e
 Little Backup Box is a part of a streamlined and automated Linux-based photographic workflow described in the [Linux Photography](https://gumroad.com/l/linux-photography) book. The book provides step-by-step instructions on building a Raspberry Pi-based photo backup device running the Little Backup Box script. Get your copy at [Google Play Store](https://play.google.com/store/books/details/Dmitri_Popov_Linux_Photography?id=cO70CwAAQBAJ) or [Gumroad](https://gumroad.com/l/linux-photography).
 
 <img src="https://scribblesandsnaps.files.wordpress.com/2016/07/linux-photography-6.jpg" width="200"/>
+
+# NEW FUNCTIONALITIES
+
+If you raspberry pi have internet connection, you can send the backup to remote storage through [rclone](https://github.com/ncw/rclone). Please see how configure the remote storage in [rclone documentation](https://rclone.org/). For this you will need modify the property ``REMOTE_PATH`` in ``backup.sh``
+
+Also included commands that notify through [Telegram Bot](https://telegram.org/blog/bot-revolution), for example when the backup is finished the raspberry pi will send you the log. For this you need [create a Telegram bot](https://core.telegram.org/bots#creating-a-new-bot), after change values in ``telegram.config`` file and put in root of storage
+
+    TOKEN="<token>" # Token of your telegram bot
+    CHATID="<chat_id>" # Your user chat_id in Telegram
+    LOG="/home/pi/little-backup-box.log" # Log file. IMPORTANT: equals than in crontab
+    MESSAGE_START="<message when rclone is started>"
+    MESSAGE_END="<message when rclone is finish>"
+    MESSAGE_CARD_UNMOUNTED="<message for notify that card is unmounted>"
