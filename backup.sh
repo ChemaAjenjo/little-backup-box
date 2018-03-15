@@ -10,7 +10,11 @@ STORAGE_DEV="sda1" # Name of the storage device
 STORAGE_MOUNT_POINT="/media/storage" # Mount point of the storage device
 CARD_DEV="sdb1" # Name of the storage card
 CARD_MOUNT_POINT="/media/card" # Mount point of the storage card
-SHUTD="5" # Minutes to wait before shutdown due to inactivity
+SHUTD="15" # Minutes to wait before shutdown due to inactivity
+REMOTE_PATH="remote:photo_backup" # rclone repository
+TOKEN="<token>" # Token of your telegram bot
+CHATID="<chat_id>" # Your user chat_id in Telegram
+LOG="/home/pi/little-backup-box.log" # Log file. IMPORTANT: equals than in crontab
 
 # If there is a wpa_supplicant.conf file in the root of the storage device
 # Rename the original config file,
@@ -22,6 +26,10 @@ if [ -f "$STORAGE_MOUNT_POINT/wpa_supplicant.conf" ]; then
     mv "$STORAGE_MOUNT_POINT/wpa_supplicant.conf" /etc/wpa_supplicant/wpa_supplicant.conf
     reboot
 fi
+
+# Check if internet connection exist
+wget -q --spider http://google.com
+[ $? -eq 0 ] && { NETWORK=1; } || { NETWORK=0; }
 
 # Set the ACT LED to heartbeat
 sudo sh -c "echo heartbeat > /sys/class/leds/led0/trigger"
@@ -64,7 +72,7 @@ if [ ! -z $CARD_READER ]; then
   # Create  a .id random identifier file if doesn't exist
   cd $CARD_MOUNT_POINT
   if [ ! -f *.id ]; then
-    touch $(date -d "today" +"%Y%m%d%H%M").id
+    touch $(date -d "today" +"%Y-%m-%d_%H%M").id
   fi
   ID_FILE=$(ls *.id)
   ID="${ID_FILE%.*}"
@@ -77,7 +85,7 @@ if [ ! -z $CARD_READER ]; then
   sudo lsblk > lsblk.log
   
   # Perform backup using rsync
-  rsync -av --exclude "*.id" $CARD_MOUNT_POINT/ $BACKUP_PATH
+  rsync -av --exclude "*.id" --include "*.NEF" --include "*.JPG" --include "*.MOV" --include */**""$CARD_MOUNT_POINT/ $BACKUP_PATH
 
   # Geocorrelate photos if a .gpx file exists
   cd $STORAGE_MOUNT_POINT
@@ -85,10 +93,28 @@ if [ ! -z $CARD_READER ]; then
     GPX="$(ls *.gpx)"
     exiftool -overwrite_original -r -ext jpg -geotag "$GPX" -geosync=120 .
   fi
+  
+  cd $CARD_MOUNT_POINT
+  rm $ID_FILE
+  cd
+  sudo umount -l $CARD_MOUNT_POINT
+
+  sleep 10
+  
+  [ $NETWORK -eq 1 ] && { curl -s -i -F chat_id="$CHATID" -F text="Ya puedes extraer la tarjeta" -X GET https://api.telegram.org/bot$TOKEN/sendMessage; }
 
   # Turn off the ACT LED to indicate that the backup is completed
   sudo sh -c "echo 0 > /sys/class/leds/led0/brightness"
 fi
+
+# Upload files from $BACKUP_PATH to remote server only with internet.
+if [ $NETWORK -eq 1 ]; then
+  curl -s -i -F chat_id="$CHATID" -F text="Iniciando la carga en remoto" -X GET https://api.telegram.org/bot$TOKEN/sendMessage
+  rclone -v --no-check-certificate copy $BACKUP_PATH $REMOTE_PATH
+  curl -s -i -F chat_id="$CHATID" -F text="Finalizada la carga en remoto" -X GET https://api.telegram.org/bot$TOKEN/sendMessage
+  curl -s -F chat_id="$CHATID" -F document=@"$LOG" https://api.telegram.org/bot$TOKEN/sendDocument;
+fi
+
 # Shutdown
 sync
 shutdown -h now
