@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 # IMPORTANT:
 # Run the install-little-backup-box.sh script first
 # to install the required packages and configure the system.
@@ -11,7 +13,7 @@ STORAGE_MOUNT_POINT="/media/storage" # Mount point of the storage device
 CARD_DEV="sdb1" # Name of the storage card
 CARD_MOUNT_POINT="/media/card" # Mount point of the storage card
 SHUTD="15" # Minutes to wait before shutdown due to inactivity
-REMOTE_PATH="bender:backups_fotos" # rclone repository
+REMOTE_PATH="remote:backup_dir" # rclone repository
 
 # If there is a wpa_supplicant.conf file in the root of the storage device
 # Rename the original config file,
@@ -95,6 +97,9 @@ if [ ! -z $CARD_READER ]; then
   # Perform backup using rsync
   rsync -av --exclude "*.id" $CARD_MOUNT_POINT/ $BACKUP_PATH
 
+  cd $CARD_MOUNT_POINT
+  rm $ID_FILE
+  
   # Geocorrelate photos if a .gpx file exists
   cd $STORAGE_MOUNT_POINT
   if [ -f *.gpx ]; then
@@ -109,7 +114,7 @@ fi
 # Upload files from $BACKUP_PATH to remote server only with internet.
 if [ $NETWORK -eq 1 ]; then
   curl -s -i -F chat_id="$CHATID" -F text="$MESSAGE_START" -X GET https://api.telegram.org/bot$TOKEN/sendMessage
-  rclone -v --no-check-certificate copy $BACKUP_PATH $REMOTE_PATH
+  rclone -v --no-check-certificate copy $BACKUP_PATH $REMOTE_PATH/"$ID"
   curl -s -i -F chat_id="$CHATID" -F text="$MESSAGE_END" -X GET https://api.telegram.org/bot$TOKEN/sendMessage
   curl -s -F chat_id="$CHATID" -F document=@"$LOG" https://api.telegram.org/bot$TOKEN/sendDocument;
 fi
