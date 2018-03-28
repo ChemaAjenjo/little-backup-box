@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-<<<<<<< HEAD
-sudo apt update && sudo apt dist-upgrade -y && sudo apt install acl git-core screen rsync exfat-fuse exfat-utils ntfs-3g rclone gphoto2 libimage-exiftool-perl -y
-=======
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -18,9 +15,8 @@ sudo apt update && sudo apt dist-upgrade -y && sudo apt install acl git-core scr
 
 sudo apt update
 sudo apt dist-upgrade -y
-sudo apt install acl git-core screen rsync exfat-fuse exfat-utils ntfs-3g gphoto2 libimage-exiftool-perl dialog python-pip -y
+sudo apt install acl git-core screen rsync exfat-fuse exfat-utils ntfs-3g gphoto2 libimage-exiftool-perl dialog python-pip rclone -y
 sudo pip install bottle
->>>>>>> upstream/master
 
 sudo mkdir /media/card
 sudo mkdir /media/storage
