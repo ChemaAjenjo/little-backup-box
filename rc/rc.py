@@ -13,18 +13,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from bottle import post, route, request, redirect, template, run
+from bottle import post, route, request, template, static_file, run
 import os
 
 @route('/')
 @route('/', method='POST')
 def remote_control():
-    st = os.statvfs("/home")
-    free = "%.2f" % float((st.f_bavail * st.f_frsize)/1.073741824e9)
+    st_home = os.statvfs("/home")
+    free_home = "%.2f" % float((st_home.f_bavail * st_home.f_frsize)/1.073741824e9)
+    
     if (request.POST.get("cardbackup")):
         os.system("sudo /home/pi/little-backup-box/scripts/card-backup.sh")
         return ('Backup started. You can close this page.')
-
     if (request.POST.get("camerabackup")):
         os.system("sudo /home/pi/little-backup-box/scripts/camera-backup.sh")
         return ('Backup started. You can close this page.')
@@ -34,5 +34,10 @@ def remote_control():
     if (request.POST.get("shutdown")):
         os.system("sudo shutdown -h now")
         return ('Shutdown request sent. You can close this page.')
-    return template('rc.tpl', freespace=free)
+    return template('rc.tpl', freespace_home=free_home)
+
+@route('/static/:path#.+#', name='static')
+def static(path):
+    return static_file(path, root='static')
+
 run(host="0.0.0.0", port=8080, debug=True, reloader=True)
