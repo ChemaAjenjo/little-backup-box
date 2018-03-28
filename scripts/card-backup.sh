@@ -106,7 +106,6 @@ if [ ! -z $CARD_READER ]; then
   # Perform backup using rsync
   rsync -av --exclude "*.id" $CARD_MOUNT_POINT/ $BACKUP_PATH
 
-<<<<<<< HEAD:backup.sh
   # Umount card
   sudo umount -l $CARD_MOUNT_POINT
   sudo kill $pid_blink > /dev/null
