@@ -2,6 +2,19 @@
 
 set -x
 
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 # IMPORTANT:
 # Run the install-little-backup-box.sh script first
 # to install the required packages and configure the system.
@@ -89,13 +102,11 @@ if [ ! -z $CARD_READER ]; then
   
   # Set the backup path
   BACKUP_PATH=$STORAGE_MOUNT_POINT/"$ID"
-
-  # Log the output of the lsblk command for troubleshooting
-  sudo lsblk > lsblk.log
   
   # Perform backup using rsync
   rsync -av --exclude "*.id" $CARD_MOUNT_POINT/ $BACKUP_PATH
 
+<<<<<<< HEAD:backup.sh
   # Umount card
   sudo umount -l $CARD_MOUNT_POINT
   sudo kill $pid_blink > /dev/null
@@ -122,6 +133,8 @@ if [ ! -z $CARD_READER ]; then
     sudo kill $pid_blink > /dev/null
   fi
   
+=======
+>>>>>>> upstream/master:scripts/card-backup.sh
   # Turn off the ACT LED to indicate that the backup is completed
   sudo sh -c "echo 0 > /sys/class/leds/led0/brightness"
 fi
