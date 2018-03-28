@@ -133,8 +133,6 @@ if [ ! -z $CARD_READER ]; then
     sudo kill $pid_blink > /dev/null
   fi
   
-=======
->>>>>>> upstream/master:scripts/card-backup.sh
   # Turn off the ACT LED to indicate that the backup is completed
   sudo sh -c "echo 0 > /sys/class/leds/led0/brightness"
 fi
