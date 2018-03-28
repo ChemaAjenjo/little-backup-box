@@ -25,7 +25,7 @@ sudo chmod -R 775 /media/storage
 sudo setfacl -Rdm g:pi:rw /media/storage
 
 cd
-git clone https://github.com/dmpop/little-backup-box.git
+git clone https://github.com/monoetharyus/little-backup-box.git
 
 HEIGHT=15
 WIDTH=40
