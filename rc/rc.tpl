@@ -48,12 +48,16 @@
 	<div id="header"><img src="static/ichigo.svg" height="39px" alt="Ichigo" align=""> Little Backup Box</div>
 	<p class="center">Free disk space on <i>/home</i>: <b>{{freespace_home}}</b> GB</p>
 	<hr>
-	<p class="left">Back up a storage card connected via a card reader</p>
-	<p><input id="btn" name="cardbackup" type="submit" value="Card backup"></p>
-	<p class="left">Transfer files directly from the connected camera</p>
-	<p><input id="btn" name="camerabackup" type="submit" value="Camera backup"></p>
-	<p class="left">Back up files from the internal storage to an external storage device</p>
-	<p><input id="btn" class="orange" name="devicebackup" type="submit" value="Device backup"></p>
-	<p class="left">Shut down the Little Backup Box</p>
+	<!--<p class="left">Back up a storage card connected via a card reader</p>
+	<p><input id="btn" name="cardbackup" type="submit" value="Card backup"></p>-->
+	<p class="left">Trasfiere los fichero directamente desde la camara conectada</p>
+	<p><input id="btn" name="camerabackup" type="submit" value="Camara backup"></p>
+	<p class="left">Mueve los ficheros almacenados en la raspberry al dispositivo conectado</p>
+	<p><input id="btn" name="devicebackup" type="submit" value="Copiar a HDD"></p>
+	<p class="left">Transfiere los fichero del lector de tarjetas al almacenamiento interno</p>
+	<p><input id="btn" name="readerbackup" type="submit" value="Lector backup"></p>
+	<p class="left">Sube los ficheros del almacenamiento interno a la nube</p>
+	<p><input id="btn" class="orange" name="networkbackup" type="submit" value="Cloud backup"></p>
+	<p class="left">Apaga la raspberry</p>
 	<p><input id="btn" class="red" name="shutdown" value="Shut down" type="submit" /></p>
     </div>
