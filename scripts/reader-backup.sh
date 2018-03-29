@@ -110,4 +110,4 @@ fi
 
 # Shutdown
 sync
-shutdown -h 1
+shutdown -h now

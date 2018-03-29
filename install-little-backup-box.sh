@@ -27,6 +27,10 @@ sudo setfacl -Rdm g:pi:rw /media/storage
 cd
 git clone https://github.com/monoetharyus/little-backup-box.git
 
+cd little-backup-box/fonts
+cp -R . /home/pi/.fonts
+cd
+
 HEIGHT=15
 WIDTH=40
 CHOICE_HEIGHT=4

@@ -14,7 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from bottle import post, route, request, template, static_file, run
-import os
+import os, subprocess
 
 @route('/')
 @route('/', method='POST')
@@ -22,14 +22,14 @@ def remote_control():
     st_home = os.statvfs("/home")
     free_home = "%.2f" % float((st_home.f_bavail * st_home.f_frsize)/1.073741824e9)
     
-    #if (request.POST.get("cardbackup")):
-    #    os.system("sudo /home/pi/little-backup-box/scripts/card-backup.sh")
-    #    return ('Backup started. You can close this page.')
+    if (request.POST.get("cardbackup")):
+        process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/card-backup.sh", shell=True)
+        return ('Backup started. You can close this page.')
     if (request.POST.get("camerabackup")):
-        os.system("sudo /home/pi/little-backup-box/scripts/camera-backup.sh")
+        process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/camera-backup.sh", shell=True)
         return ('Backup started. You can close this page.')
     if (request.POST.get("devicebackup")):
-        os.system("sudo /home/pi/little-backup-box/scripts/device-backup.sh")
+        process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/device-backup.sh", shell=True)
         return ('Transfer started. You can close this page.')
     if (request.POST.get("readerbackup")):
         os.system("sudo /home/pi/little-backup-box/scripts/reader-backup.sh")
@@ -38,7 +38,7 @@ def remote_control():
         os.system("sudo /home/pi/little-backup-box/scripts/network-backup.sh /home/pi/network-backup.log")
         return ('Transfer started. You can close this page.')
     if (request.POST.get("shutdown")):
-        os.system("sudo shutdown -h now")
+        process = subprocess.Popen("sudo shutdown -h now", shell=True)
         return ('Shutdown request sent. You can close this page.')
     return template('rc.tpl', freespace_home=free_home)
 
