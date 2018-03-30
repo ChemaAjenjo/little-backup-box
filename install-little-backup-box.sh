@@ -15,8 +15,10 @@
 
 sudo apt update
 sudo apt dist-upgrade -y
-sudo apt install acl git-core screen rsync exfat-fuse exfat-utils ntfs-3g gphoto2 libimage-exiftool-perl dialog python3-pip rclone -y
+sudo apt install acl git-core screen rsync exfat-fuse exfat-utils ntfs-3g gphoto2 libimage-exiftool-perl dialog python3-pip python-rpi.gpio -y
 sudo pip3 install bottle
+
+sudo curl https://rclone.org/install.sh | sudo bash
 
 sudo mkdir /media/card
 sudo mkdir /media/storage
