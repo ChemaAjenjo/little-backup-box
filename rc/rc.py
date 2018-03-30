@@ -15,6 +15,12 @@
 
 from bottle import post, route, request, template, static_file, run
 import os, subprocess
+import RPi.GPIO as GPIO
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(21, GPIO.OUT)
+GPIO.output(21, True)
 
 @route('/')
 @route('/', method='POST')
@@ -26,13 +32,13 @@ def remote_control():
         process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/card-backup.sh", shell=True)
         return ('Backup started. You can close this page.')
     if (request.POST.get("camerabackup")):
-        process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/camera-backup.sh", shell=True)
+        process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/camera-backup.sh 2>&1 > /home/pi/camera-backup.log", shell=True)
         return ('Backup started. You can close this page.')
     if (request.POST.get("devicebackup")):
-        process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/device-backup.sh", shell=True)
+        process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/device-backup.sh 2>&1 > /home/pi/device-backup.log", shell=True)
         return ('Transfer started. You can close this page.')
     if (request.POST.get("readerbackup")):
-        os.system("sudo /home/pi/little-backup-box/scripts/reader-backup.sh")
+        os.system("sudo /home/pi/little-backup-box/scripts/reader-backup.sh 2>&1 > /home/pi/reader-backup.log")
         return ('Transfer started. You can close this page.')
     if (request.POST.get("networkbackup")):
         os.system("sudo /home/pi/little-backup-box/scripts/network-backup.sh /home/pi/network-backup.log")

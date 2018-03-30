@@ -28,6 +28,10 @@ SHUTD="5" # Minutes to wait before shutdown due to inactivity
 # Set the ACT LED to heartbeat
 sudo sh -c "echo heartbeat > /sys/class/leds/led0/trigger"
 
+# Turn on led
+gpio -g mode 21 out
+gpio -g write 21 1
+
 # Shutdown after a specified period of time (in minutes) if no device is connected.
 sudo shutdown -h $SHUTD "Shutdown is activated. To cancel: sudo shutdown -c"
 
@@ -37,6 +41,7 @@ while [ -z ${STORAGE} ]
   do
   sleep 1
   STORAGE=$(ls /dev/* | grep $STORAGE_DEV | cut -d"/" -f3)
+  gpio -g toggle 21
 done
 
 # When the USB storage device is detected, mount it
@@ -44,6 +49,10 @@ mount /dev/$STORAGE_DEV $STORAGE_MOUNT_POINT
 
 # Cancel shutdown
 sudo shutdown -c
+
+# Make blink led while transfer files to local backup folder
+gpio -g blink 21 &
+pid_blink=$!
 
 # Set the ACT LED to blink at 1000ms to indicate that the storage device has been mounted
 sudo sh -c "echo timer > /sys/class/leds/led0/trigger"
@@ -81,6 +90,9 @@ if [ ! -z $CARD_READER ]; then
   # Turn off the ACT LED to indicate that the backup is completed
   sudo sh -c "echo 0 > /sys/class/leds/led0/brightness"
 fi
+
+# Stop led blink
+sudo kill $pid_blink > /dev/null
 
 # Shutdown
 sync

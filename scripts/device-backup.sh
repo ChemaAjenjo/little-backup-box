@@ -36,6 +36,7 @@ while [ -z ${STORAGE} ]
   do
   sleep 1
   STORAGE=$(ls /dev/* | grep $STORAGE_DEV | cut -d"/" -f3)
+  gpio -g toggle 21
 done
 
 # When the USB storage device is detected, mount it
@@ -43,6 +44,9 @@ mount /dev/$STORAGE_DEV $STORAGE_MOUNT_POINT
 
 # Cancel shutdown
 sudo shutdown -c
+
+gpio -g blink 21 &
+pid_blink=$!
 
 # Set the ACT LED to blink at 1000ms to indicate that the storage device has been mounted
 sudo sh -c "echo timer > /sys/class/leds/led0/trigger"
@@ -53,10 +57,13 @@ sudo sh -c "echo 1000 > /sys/class/leds/led0/delay_on"
 # Perform backup using rsync
 rsync -av $SOURCE_DIR $STORAGE_MOUNT_POINT/BACKUP
 
-rm -rf $SOURCE_DIR/*
+# Remove local backup folder
+[ $? -eq 0 ] && { rm -rf $SOURCE_DIR/*; }
 
 # Turn off the ACT LED to indicate that the backup is completed
 sudo sh -c "echo 0 > /sys/class/leds/led0/brightness"
+
+sudo kill $pid_blink > /dev/null
 
 # Shutdown
 sync

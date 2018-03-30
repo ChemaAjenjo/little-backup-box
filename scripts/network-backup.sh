@@ -40,6 +40,10 @@ fi
 sudo sh -c "echo timer > /sys/class/leds/led0/trigger"
 sudo sh -c "echo 1000 > /sys/class/leds/led0/delay_on"
 
+# Make blink led while transfer files to local backup folder
+gpio -g blink 21 &
+pid_blink=$!
+
 # Check if internet connection exist
 wget -q --spider http://google.com
 # Upload files from $BACKUP_PATH to remote server only with internet connection
@@ -52,6 +56,9 @@ if [ $? -eq 0 ]; then
 fi
 # Turn off the ACT LED to indicate that the backup is completed
 sudo sh -c "echo 0 > /sys/class/leds/led0/brightness"
+
+# Stop led blink
+sudo kill $pid_blink > /dev/null
 
 # Shutdown
 sync

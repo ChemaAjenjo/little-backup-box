@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x 
+
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -33,10 +35,14 @@ while [ -z ${DEVICE} ]
 	do
 	sleep 1
 	DEVICE=$(gphoto2 --auto-detect | grep usb | cut -b 36-42 | sed 's/,/\//')
+	gpio -g toggle 21
 done
 
 # Cancel shutdown
 sudo shutdown -c
+
+gpio -g blink 21 &
+pid_blink=$!
 
 # Obtain camera model
 # Create the target directory with the camera model as its name
@@ -48,6 +54,8 @@ mkdir -p $STORAGE_MOUNT_POINT
 # Rename the transferred files using the YYYYMMDD-HHMMSS format
 cd $STORAGE_MOUNT_POINT
 gphoto2 --get-all-files --skip-existing --filename=%Y%m%d-%H%M%S.%C
+
+sudo kill $pid_blink > /dev/null
 
 # Shutdown
 shutdown -h now 

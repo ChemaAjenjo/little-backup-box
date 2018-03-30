@@ -44,6 +44,7 @@ MICROSD_READER=$(ls /dev/* | grep $MICROSD_DEV | cut -d"/" -f3)
 until [ ! -z $CARD_READER ] || [ ! -z $MICROSD_READER ]
   do
   sleep 1
+  gpio -g toggle 21
   CARD_READER=$(ls /dev/sd* | grep $CARD_DEV | cut -d"/" -f3)
   MICROSD_READER=$(ls /dev/* | grep $MICROSD_DEV | cut -d"/" -f3)
 done
@@ -51,8 +52,12 @@ done
 # Cancel shutdown
 sudo shutdown -c
 
-# Create internal backup dir if not exist
-[ ! -z "$HOME_DIR" ] && { mkdir $HOME_DIR; }
+# Make blink led while transfer files to local backup folder
+gpio -g blink 21 &
+pid_blink=$!
+
+# Create internal backup
+mkdir -p $HOME_DIR
 
 # If the card reader is detected, mount it and obtain its UUID
 if [ ! -z $CARD_READER ]; then
@@ -69,7 +74,8 @@ if [ ! -z $CARD_READER ]; then
   ID="${ID_FILE%.*}"
   cd
 
-  [ ! -z "$HOME_DIR/SDCARD" ] && { mkdir $HOME_DIR/SDCARD; }
+  # Create SDCARD dir inside HOME_DIR
+  mkdir -p $HOME_DIR/SDCARD
   
   # Set the backup path
   BACKUP_PATH=$HOME_DIR/SDCARD/"$ID"
@@ -95,8 +101,9 @@ if [ ! -z $MICROSD_READER ]; then
   ID_FILE=$(ls *.id)
   ID="${ID_FILE%.*}"
   cd
-
-  [ ! -z "$HOME_DIR/MICROSD" ] && { mkdir $HOME_DIR/MICROSD; }
+  
+  # Create MICROSD dir inside HOME_DIR
+  mkdir -p $HOME_DIR/MICROSD
   
   # Set the backup path
   BACKUP_PATH=$HOME_DIR/MICROSD/"$ID"
@@ -107,6 +114,9 @@ if [ ! -z $MICROSD_READER ]; then
   # Turn off the ACT LED to indicate that the backup is completed
   sudo sh -c "echo 0 > /sys/class/leds/led0/brightness"
 fi
+
+# Stop led blink
+sudo kill $pid_blink > /dev/null
 
 # Shutdown
 sync
