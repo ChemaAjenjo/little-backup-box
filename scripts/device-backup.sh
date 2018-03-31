@@ -52,7 +52,7 @@ pid_blink=$!
 sudo sh -c "echo timer > /sys/class/leds/led0/trigger"
 sudo sh -c "echo 1000 > /sys/class/leds/led0/delay_on"
 
-[ ! -z "$STORAGE_MOUNT_POINT/BACKUP" ] && { mkdir $STORAGE_MOUNT_POINT/BACKUP; }
+mkdir -p $STORAGE_MOUNT_POINT/BACKUP
 
 # Perform backup using rsync
 rsync -av $SOURCE_DIR $STORAGE_MOUNT_POINT/BACKUP
