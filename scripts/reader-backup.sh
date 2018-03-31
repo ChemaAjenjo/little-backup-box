@@ -75,10 +75,11 @@ if [ ! -z $CARD_READER ]; then
   cd
 
   # Create SDCARD dir inside HOME_DIR
-  mkdir -p $HOME_DIR/SDCARD
+  LABEL=$(sudo blkid | grep $CARD_DEV | awk 'BEGIN {FS="\""} {gsub(" ","_")} {print $2}')
+  mkdir -p $HOME_DIR/"$LABEL"
   
   # Set the backup path
-  BACKUP_PATH=$HOME_DIR/SDCARD/"$ID"
+  BACKUP_PATH=$HOME_DIR/"$LABEL"/"$ID"
   
   # Perform backup using rsync
   rsync -av --exclude "*.id" $CARD_MOUNT_POINT/ $BACKUP_PATH
@@ -103,10 +104,11 @@ if [ ! -z $MICROSD_READER ]; then
   cd
   
   # Create MICROSD dir inside HOME_DIR
-  mkdir -p $HOME_DIR/MICROSD
+  LABEL=$(sudo blkid | grep $MICROSD_DEV | awk 'BEGIN {FS="\""} {gsub(" ","_")} {print $2}')
+  mkdir -p $HOME_DIR/"$LABEL"
   
   # Set the backup path
-  BACKUP_PATH=$HOME_DIR/MICROSD/"$ID"
+  BACKUP_PATH=$HOME_DIR/"$LABEL"/"$ID"
   
   # Perform backup using rsync
   rsync -av --exclude "*.id" $MICROSD_MOUNT_POINT/ $BACKUP_PATH
@@ -120,4 +122,4 @@ sudo kill $pid_blink > /dev/null
 
 # Shutdown
 sync
-shutdown -h now
+#shutdown -h now
