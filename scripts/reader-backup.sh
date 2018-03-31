@@ -122,4 +122,4 @@ sudo kill $pid_blink > /dev/null
 
 # Shutdown
 sync
-#shutdown -h now
+shutdown -h now
