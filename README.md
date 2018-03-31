@@ -92,4 +92,5 @@ Also included commands that notify through [Telegram Bot](https://telegram.org/b
     TOKEN="<token>" # Token of your telegram bot
     CHATID="<chat_id>" # Your user chat_id in Telegram
     REMOTE_PATH="remote:backup_dir" # your rclone folder repository
+    LOG="log_file" # log file
     
