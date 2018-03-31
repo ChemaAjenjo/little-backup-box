@@ -15,12 +15,13 @@
 
 sudo apt update
 sudo apt dist-upgrade -y
-sudo apt install acl git-core screen rsync exfat-fuse exfat-utils ntfs-3g gphoto2 libimage-exiftool-perl dialog python3-pip python-rpi.gpio -y
+sudo apt install acl git-core screen rsync exfat-fuse exfat-utils ntfs-3g gphoto2 libimage-exiftool-perl dialog wiringpi -y
 sudo pip3 install bottle
 
 sudo curl https://rclone.org/install.sh | sudo bash
 
 sudo mkdir /media/card
+sudo mkdir /media/microsd
 sudo mkdir /media/storage
 sudo chown -R pi:pi /media/storage
 sudo chmod -R 775 /media/storage
@@ -55,19 +56,21 @@ CHOICE=$(dialog --clear \
 clear
 case $CHOICE in
         1)
+            crontab -l | { cat; echo "@reboot gpio -g mode 21 out && gpio -g write 21 1"; } | crontab
             crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/card-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
 	    crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/camera-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
-	    crontab -l | { cat; echo "@reboot cd /home/pi/little-backup-box/rc && sudo python3 rc.py"; } | crontab
+	    crontab -l | { cat; echo "@reboot cd /home/pi/little-backup-box/rc && sudo python3.5 rc.py"; } | crontab
             ;;
         2)
+            crontab -l | { cat; echo "@reboot gpio -g mode 21 out && gpio -g write 21 1"; } | crontab
             crontab -l | { cat; echo "@reboot sudo /home/pi/little-backup-box/scripts/card-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
 	    crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/camera-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
-	    crontab -l | { cat; echo "#@reboot cd /home/pi/little-backup-box/rc && sudo python3 rc.py"; } | crontab
+	    crontab -l | { cat; echo "#@reboot cd /home/pi/little-backup-box/rc && sudo python3.5 rc.py"; } | crontab
             ;;
         3)
-            crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/card-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
+            crontab -l | { cat; echo "@reboot gpio -g mode 21 out && gpio -g write 21 1"; } | crontab
 	    crontab -l | { cat; echo "@reboot sudo /home/pi/little-backup-box/scripts/camera-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
-	    crontab -l | { cat; echo "#@reboot cd /home/pi/little-backup-box/rc && sudo python3 rc.py"; } | crontab
+	    crontab -l | { cat; echo "#@reboot cd /home/pi/little-backup-box/rc && sudo python3.5 rc.py"; } | crontab
             ;;
 esac
 
