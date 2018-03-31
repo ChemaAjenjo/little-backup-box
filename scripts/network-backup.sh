@@ -20,10 +20,12 @@ set -x
 # to install the required packages and configure the system.
 
 HOME_DIR="/home/pi/BACKUP/" # Home directory path
-LOG="$1"
 
 # Set the ACT LED to heartbeat
 sudo sh -c "echo heartbeat > /sys/class/leds/led0/trigger"
+
+# Set gpio 21 in mode out
+gpio -g mode 21 out
 
 # If there is a wpa_supplicant.conf file in the root of the storage device
 # Rename the original config file,

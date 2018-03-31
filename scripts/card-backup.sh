@@ -28,9 +28,8 @@ SHUTD="5" # Minutes to wait before shutdown due to inactivity
 # Set the ACT LED to heartbeat
 sudo sh -c "echo heartbeat > /sys/class/leds/led0/trigger"
 
-# Turn on led
+# Set gpio 21 in mode out
 gpio -g mode 21 out
-gpio -g write 21 1
 
 # Shutdown after a specified period of time (in minutes) if no device is connected.
 sudo shutdown -h $SHUTD "Shutdown is activated. To cancel: sudo shutdown -c"
