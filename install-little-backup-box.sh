@@ -42,8 +42,9 @@ TITLE="Backup mode"
 MENU="Select the default backup mode:"
 
 OPTIONS=(1 "Remote control"
-         2 "Card backup"
-         3 "Camera backup")
+         2 "Card backup (Backup from card reader to external storage)"
+         3 "Camera backup (Backup from camera to internal storage)"
+         4 "SDReader backup (Backup from cardreader (multi) to internal storage)" )
 
 CHOICE=$(dialog --clear \
                 --backtitle "$BACKTITLE" \
@@ -58,20 +59,30 @@ case $CHOICE in
         1)
             crontab -l | { cat; echo "@reboot gpio -g mode 21 out && gpio -g write 21 1"; } | crontab
             crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/card-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
-        crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/camera-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
-        crontab -l | { cat; echo "@reboot sudo /home/pi/little-backup-box/scripts/rc.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
+            crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/camera-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
+            crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/reader-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
+            crontab -l | { cat; echo "@reboot sudo /home/pi/little-backup-box/scripts/rc.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
         ;;
         2)
             crontab -l | { cat; echo "@reboot gpio -g mode 21 out && gpio -g write 21 1"; } | crontab
             crontab -l | { cat; echo "@reboot sudo /home/pi/little-backup-box/scripts/card-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
-	    crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/camera-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
-	    crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/rc.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
+            crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/camera-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
+            crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/reader-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
+            crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/rc.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
         ;;
         3)
             crontab -l | { cat; echo "@reboot gpio -g mode 21 out && gpio -g write 21 1"; } | crontab
-        crontab -l | { cat; echo "@reboot sudo /home/pi/little-backup-box/scripts/card-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
-	    crontab -l | { cat; echo "@reboot sudo /home/pi/little-backup-box/scripts/camera-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
-	    crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/rc.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
+            crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/card-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
+            crontab -l | { cat; echo "@reboot sudo /home/pi/little-backup-box/scripts/camera-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
+            crontab -l | { cat; echo "@reboot sudo /home/pi/little-backup-box/scripts/reader-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
+            crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/rc.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
+        ;;
+        4)
+            crontab -l | { cat; echo "@reboot gpio -g mode 21 out && gpio -g write 21 1"; } | crontab
+            crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/card-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
+            crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/camera-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
+            crontab -l | { cat; echo "@reboot sudo /home/pi/little-backup-box/scripts/reader-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
+            crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/rc.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
         ;;
 esac
 
