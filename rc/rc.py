@@ -26,16 +26,16 @@ def remote_control():
         process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/card-backup.sh", shell=True)
         return ('Backup started. You can close this page.')
     if (request.POST.get("camerabackup")):
-        process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/camera-backup.sh 2>&1 > /home/pi/camera-backup.log", shell=True)
+        process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/camera-backup.sh", shell=True)
         return ('Backup started. You can close this page.')
     if (request.POST.get("devicebackup")):
-        process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/device-backup.sh 2>&1 > /home/pi/device-backup.log", shell=True)
+        process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/device-backup.sh", shell=True)
         return ('Transfer started. You can close this page.')
     if (request.POST.get("readerbackup")):
-        os.system("sudo /home/pi/little-backup-box/scripts/reader-backup.sh 2>&1 > /home/pi/reader-backup.log")
+        os.system("sudo /home/pi/little-backup-box/scripts/reader-backup.sh")
         return ('Transfer started. You can close this page.')
     if (request.POST.get("networkbackup")):
-        os.system("sudo /home/pi/little-backup-box/scripts/network-backup.sh /home/pi/network-backup.log")
+        os.system("sudo /home/pi/little-backup-box/scripts/network-backup.sh")
         return ('Transfer started. You can close this page.')
     if (request.POST.get("shutdown")):
         process = subprocess.Popen("sudo shutdown -h now", shell=True)
