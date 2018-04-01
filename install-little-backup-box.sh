@@ -35,8 +35,8 @@ sudo cp -R . /home/pi/.fonts
 cd
 
 HEIGHT=15
-WIDTH=40
-CHOICE_HEIGHT=4
+WIDTH=80
+CHOICE_HEIGHT=5
 BACKTITLE="Little Backup Box"
 TITLE="Backup mode"
 MENU="Select the default backup mode:"
@@ -44,7 +44,7 @@ MENU="Select the default backup mode:"
 OPTIONS=(1 "Remote control"
          2 "Card backup (Backup from card reader to external storage)"
          3 "Camera backup (Backup from camera to internal storage)"
-         4 "SDReader backup (Backup from cardreader (multi) to internal storage)" )
+         4 "Device backup (Backup from device to internal storage)" )
 
 CHOICE=$(dialog --clear \
                 --backtitle "$BACKTITLE" \
@@ -90,4 +90,4 @@ echo "---------------------------------------------"
 echo "All done! The system will reboot in 1 minute."
 echo "---------------------------------------------"
 
-sudo shutdown -r 1
+#sudo shutdown -r 1
