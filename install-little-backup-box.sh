@@ -90,4 +90,4 @@ echo "---------------------------------------------"
 echo "All done! The system will reboot in 1 minute."
 echo "---------------------------------------------"
 
-#sudo shutdown -r 1
+sudo shutdown -r 1
