@@ -13,9 +13,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-sudo apt-get update
-sudo apt-get dist-upgrade -y
-sudo apt-get install acl git-core screen rsync exfat-fuse exfat-utils ntfs-3g gphoto2 libimage-exiftool-perl dialog wiringpi pip3 -y
+sudo apt update
+sudo apt dist-upgrade -y
+sudo apt install acl git-core screen rsync exfat-fuse exfat-utils ntfs-3g gphoto2 libimage-exiftool-perl dialog wiringpi python3-pip -y
 sudo pip3 install bottle
 
 sudo curl https://rclone.org/install.sh | sudo bash
