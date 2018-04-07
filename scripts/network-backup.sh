@@ -53,6 +53,7 @@ if [ $? -eq 0 ]; then
   source network.conf
   rclone -v --log-file="$LOG" --no-check-certificate sync $HOME_DIR $REMOTE_PATH
   curl -s -F chat_id="$CHATID" -F document=@"$LOG" https://api.telegram.org/bot$TOKEN/sendDocument > /dev/null
+  [ $? -eq 0 ] && { rm "$LOG" }
 fi
 # Turn off the ACT LED to indicate that the backup is completed
 sudo sh -c "echo 0 > /sys/class/leds/led0/brightness"
