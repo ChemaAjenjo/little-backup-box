@@ -59,11 +59,13 @@
 	<div id="header">External Storage</div>
 	<p class="left">Back up the internal storage files to an external storage device. <b>Warning:</b> remove files in the internal storage</p>
 	<p><input id="btn" class="orange" name="devicebackup" type="submit" value="Device backup"></p>
-	<p class="left">Back up a storage card connected via a card reader to an external storage device</p>
-	<p><input id="btn" class="orange" name="cardbackup" type="submit" value="Card backup"></p>
+	<!-- p class="left">Back up a storage card connected via a card reader to an external storage device</p>
+	<p><input id="btn" class="orange" name="cardbackup" type="submit" value="Card backup"></p-->
 	<div id="header">Network Storage</div>
 	<p class="left">Back up files from the internal storage to a cloud storage service. Requiered rclone configuration.</p>
 	<p><input id="btn" class="green" name="networkbackup" type="submit" value="Cloud backup"></p>
+	<p class="left">Upload files from the external storage to a cloud storage service. Requiered rclone configuration.</p>
+	<p><input id="btn" class="green" name="device-2-network-backup" type="submit" value="Device2Cloud"></p>
 	<hr>
 	<p class="left">Shut down the Little Backup Box</p>
 	<p><input id="btn" class="red" name="shutdown" value="Shut down" type="submit" /></p>

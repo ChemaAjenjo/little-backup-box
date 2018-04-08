@@ -32,10 +32,13 @@ def remote_control():
         process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/device-backup.sh", shell=True)
         return ('Transfer started. You can close this page.')
     if (request.POST.get("readerbackup")):
-        os.system("sudo /home/pi/little-backup-box/scripts/reader-backup.sh")
+        process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/reader-backup.sh", shell=True)
         return ('Transfer started. You can close this page.')
     if (request.POST.get("networkbackup")):
-        os.system("sudo /home/pi/little-backup-box/scripts/network-backup.sh")
+        process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/network-backup.sh", shell=True)
+        return ('Transfer started. You can close this page.')
+    if (request.POST.get("device-2-network-backup")):
+        process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/device-2-network-backup.sh", shell=True)
         return ('Transfer started. You can close this page.')
     if (request.POST.get("shutdown")):
         process = subprocess.Popen("sudo shutdown -h now", shell=True)
