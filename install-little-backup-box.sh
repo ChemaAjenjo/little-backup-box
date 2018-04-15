@@ -16,6 +16,7 @@
 sudo apt update
 sudo apt dist-upgrade -y
 sudo apt install acl git-core screen rsync exfat-fuse exfat-utils ntfs-3g gphoto2 libimage-exiftool-perl dialog wiringpi python3-pip -y
+sudo apt update
 sudo pip3 install bottle
 
 sudo curl https://rclone.org/install.sh | sudo bash
