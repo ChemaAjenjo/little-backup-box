@@ -18,6 +18,7 @@
 # to install the required packages and configure the system.
 
 HOME_DIR="/home/pi/BACKUP/" # Home directory path
+STORAGE_MOUNT_POINT="/media/storage" # Mont point of the storage device
 
 # Set the ACT LED to heartbeat
 sudo sh -c "echo heartbeat > /sys/class/leds/led0/trigger"
