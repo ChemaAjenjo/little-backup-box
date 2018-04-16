@@ -18,7 +18,6 @@
 # to install the required packages and configure the system.
 
 HOME_DIR="/home/pi/BACKUP/" # Home directory path
-STORAGE_MOUNT_POINT="/media/storage" # Mont point of the storage device
 
 # Set the ACT LED to heartbeat
 sudo sh -c "echo heartbeat > /sys/class/leds/led0/trigger"
@@ -30,10 +29,10 @@ gpio -g mode 21 out
 # Rename the original config file,
 # move wpa_supplicant.conf from the card to /etc/wpa_supplicant/
 # Reboot to enable networking
-if [ -f "$STORAGE_MOUNT_POINT/wpa_supplicant.conf" ]; then
+if [ -f "/dev/sda1/wpa_supplicant.conf" ]; then
     sudo sh -c "echo 100 > /sys/class/leds/led0/delay_on"
     mv /etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf.bak
-    mv "$STORAGE_MOUNT_POINT/wpa_supplicant.conf" /etc/wpa_supplicant/wpa_supplicant.conf
+    mv "/dev/sda1/wpa_supplicant.conf" /etc/wpa_supplicant/wpa_supplicant.conf
     reboot
 fi
 
