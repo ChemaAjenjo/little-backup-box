@@ -15,18 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-STORAGE_MOUNT_POINT="/media/storage" # Mont point of the storage device
-
-# If there is a wpa_supplicant.conf file in the root of the storage device
-# Rename the original config file,
-# move wpa_supplicant.conf from the card to /etc/wpa_supplicant/
-# Reboot to enable networking
-if [ -f "$STORAGE_MOUNT_POINT/wpa_supplicant.conf" ]; then
-    mv /etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf.bak
-    mv "$STORAGE_MOUNT_POINT/wpa_supplicant.conf" /etc/wpa_supplicant/wpa_supplicant.conf
-    reboot
-fi
-
 while :
 do
   if [[ ! $(pgrep -f rc.py) ]]; then
