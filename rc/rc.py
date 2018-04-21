@@ -14,13 +14,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from bottle import post, route, request, template, static_file, run
-import os, subprocess
+import os, subprocess, socket
 
 @route('/')
 @route('/', method='POST')
 def remote_control():
     st_home = os.statvfs("/home")
     free_home = "%.2f" % float((st_home.f_bavail * st_home.f_frsize)/1.073741824e9)
+    hostname = socket.gethostname()
     
     if (request.POST.get("cardbackup")):
         process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/card-backup.sh", shell=True)
@@ -43,7 +44,7 @@ def remote_control():
     if (request.POST.get("shutdown")):
         process = subprocess.Popen("sudo shutdown -h now", shell=True)
         return template('exit.tpl')
-    return template('rc.tpl', freespace_home=free_home)
+    return template('rc.tpl', freespace_home=free_home, hostname=hostname)
 
 @route('/static/:path#.+#', name='static')
 def static(path):

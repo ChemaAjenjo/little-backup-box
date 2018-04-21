@@ -48,7 +48,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <form method="POST" action="/">
     <div id="content">
-	<div id="header"><img src="static/ichigo.svg" height="39px" alt="Ichigo" align=""> Little Backup Box</div>
+	<div id="header"><img src="static/ichigo.svg" height="39px" alt="Ichigo" align="">{{hostname}}</div>
 	<p class="center">Free disk space on <i>/home</i>: <b>{{freespace_home}}</b> GB</p>
 	<hr>
 	<div id="header">Internal Storage</div>
