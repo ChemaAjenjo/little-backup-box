@@ -24,6 +24,7 @@ STORAGE_MOUNT_POINT="/media/storage" # Mount point of the storage device
 CARD_DEV="sdb1" # Name of the storage card
 CARD_MOUNT_POINT="/media/card" # Mount point of the storage card
 SHUTD="5" # Minutes to wait before shutdown due to inactivity
+LOG="/home/pi/card-backup_$(date -d "today" +"%Y%m%d%H%M").log"
 
 # Set the ACT LED to heartbeat
 sudo sh -c "echo heartbeat > /sys/class/leds/led0/trigger"
@@ -101,7 +102,8 @@ if [ $? -eq 0 ]; then
   cd $(dirname $0)
   cd ..
   source network.conf
-  curl -s -F chat_id="$CHATID" -F text="BACKUP REALIZADO" https://api.telegram.org/bot$TOKEN/sendMessage > /dev/null
+  curl -s -F chat_id="$CHATID" -F document=@"$LOG" https://api.telegram.org/bot$TOKEN/sendDocument > /dev/null
+  [ $? -eq 0 ] && { rm "$LOG"; }
 fi
 
 # Shutdown
