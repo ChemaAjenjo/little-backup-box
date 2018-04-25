@@ -8,12 +8,16 @@
      }
      p.center {
          text-align: center;
+		 margin: 5 auto;
      }
      img {
 	 display: block;
 	 margin-left: auto;
 	 margin-right: auto;
      }
+	 h2 {
+	 margin: 5 auto;
+	 }
      #content {
 		 font: 1em/1.5em 'Lato', sans-serif;
          margin: 0px auto;
@@ -76,14 +80,14 @@
 	<p class="center">Free disk space on <i>/home</i>: <b>{{freespace_home}}</b> GB</p>
 	<hr>
 	<div id="header">Internal Storage</div>
-	<p><input id="btn" class ="btn-camera-backup blue" name="camerabackup" type="submit" value=""></p>
-	<p><input id="btn" class ="btn-reader-backup blue" name="readerbackup" type="submit" value = ""></p>
+	<p><input id="btn" class="btn-camera-backup blue" name="camerabackup" value=" " type="submit"></p>
+	<p><input id="btn" class="btn-reader-backup blue" name="readerbackup" value=" " type="submit"></p>
 	<div id="header">External Storage</div>
-	<p><input id="btn" class="btn-device-backup orange" name="devicebackup" type="submit" value=""></p>
-	<p><input id="btn" class="btn-card-backup orange" name="cardbackup" type="submit" value=""></p>
+	<p><input id="btn" class="btn-device-backup orange" name="devicebackup" value=" " type="submit"></p>
+	<p><input id="btn" class="btn-card-backup orange" name="cardbackup" value=" " type="submit"></p>
 	<div id="header">Network Storage</div>
-	<p><input id="btn" class="btn-network-backup green" name="networkbackup" type="submit" value=""></p>
-	<p><input id="btn" class="btn-device-2-network-backup green" name="device-2-network-backup" type="submit" value=""></p>
+	<p><input id="btn" class="btn-network-backup green" name="networkbackup" value=" " type="submit"></p>
+	<p><input id="btn" class="btn-device-2-network-backup green" name="device-2-network-backup" value=" " type="submit"></p>
 	<hr>
-	<p><input id="btn" class="btn-shutdown red" name="shutdown" value="" type="submit" /></p>
+	<p><input id="btn" class="btn-shutdown red" name="shutdown" value=" " type="submit" /></p>
     </div>
