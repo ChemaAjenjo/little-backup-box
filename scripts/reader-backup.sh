@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -25,6 +27,7 @@ MICROSD_MOUNT_POINT="/media/microsd" # Mount point of the storage card
 CARD_DEV="sda1" # Name of the storage card
 CARD_MOUNT_POINT="/media/card" # Mount point of the storage card
 SHUTD="5" # Minutes to wait before shutdown due to inactivity
+LOG="/home/pi/reader-backup_$(date -d "today" +"%Y%m%d%H%M").log"
 
 # Set the ACT LED to heartbeat
 sudo sh -c "echo heartbeat > /sys/class/leds/led0/trigger"
@@ -83,7 +86,7 @@ if [ ! -z $CARD_READER ]; then
   BACKUP_PATH=$HOME_DIR/"$LABEL"/"$ID"
   
   # Perform backup using rsync
-  rsync -av --exclude "*.id" $CARD_MOUNT_POINT/ $BACKUP_PATH
+  rsync -av --log-file="$LOG" --exclude "*.id" $CARD_MOUNT_POINT/ $BACKUP_PATH
 
   # Turn off the ACT LED to indicate that the backup is completed
   sudo sh -c "echo 0 > /sys/class/leds/led0/brightness"
@@ -112,7 +115,7 @@ if [ ! -z $MICROSD_READER ]; then
   BACKUP_PATH=$HOME_DIR/"$LABEL"/"$ID"
   
   # Perform backup using rsync
-  rsync -av --exclude "*.id" $MICROSD_MOUNT_POINT/ $BACKUP_PATH
+  rsync -av --log-file="$LOG" --exclude "*.id" $MICROSD_MOUNT_POINT/ $BACKUP_PATH
 
   # Turn off the ACT LED to indicate that the backup is completed
   sudo sh -c "echo 0 > /sys/class/leds/led0/brightness"
@@ -120,6 +123,17 @@ fi
 
 # Stop led blink
 sudo kill $pid_blink > /dev/null
+
+# Check if internet connection exist
+wget -q --spider http://google.com
+# Upload files from $BACKUP_PATH to remote server only with internet connection
+if [ $? -eq 0 ]; then
+  cd $(dirname $0)
+  cd ..
+  source network.conf
+  curl -s -F chat_id="$CHATID" -F document=@"$LOG" https://api.telegram.org/bot$TOKEN/sendDocument > /dev/null
+  [ $? -eq 0 ] && { rm "$LOG"; }
+fi
 
 # Shutdown
 sync

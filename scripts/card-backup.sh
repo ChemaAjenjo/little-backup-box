@@ -93,6 +93,16 @@ fi
 # Stop led blink
 sudo kill $pid_blink > /dev/null
 
+# Check if internet connection exist
+wget -q --spider http://google.com
+# Upload files from $BACKUP_PATH to remote server only with internet connection
+if [ $? -eq 0 ]; then
+  cd $(dirname $0)
+  cd ..
+  source network.conf
+  curl -s -F chat_id="$CHATID" -F text="BACKUP REALIZADO" https://api.telegram.org/bot$TOKEN/sendMessage > /dev/null
+fi
+
 # Shutdown
 sync
 shutdown -h now

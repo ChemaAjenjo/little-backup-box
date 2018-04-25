@@ -31,17 +31,6 @@ sudo sh -c "echo heartbeat > /sys/class/leds/led0/trigger"
 # Set gpio 21 in mode out
 gpio -g mode 21 out
 
-# If there is a wpa_supplicant.conf file in the root of the storage device
-# Rename the original config file,
-# move wpa_supplicant.conf from the card to /etc/wpa_supplicant/
-# Reboot to enable networking
-if [ -f "$STORAGE_MOUNT_POINT/wpa_supplicant.conf" ]; then
-    sudo sh -c "echo 100 > /sys/class/leds/led0/delay_on"
-    mv /etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf.bak
-    mv "$STORAGE_MOUNT_POINT/wpa_supplicant.conf" /etc/wpa_supplicant/wpa_supplicant.conf
-    reboot
-fi
-
 # Wait for a USB storage device (e.g., a USB flash drive)
 STORAGE=$(ls /dev/* | grep $STORAGE_DEV | cut -d"/" -f3)
 while [ -z ${STORAGE} ]
@@ -53,6 +42,17 @@ done
 
 # When the USB storage device is detected, mount it
 mount /dev/$STORAGE_DEV $STORAGE_MOUNT_POINT
+
+# If there is a wpa_supplicant.conf file in the root of the storage device
+# Rename the original config file,
+# move wpa_supplicant.conf from the card to /etc/wpa_supplicant/
+# Reboot to enable networking
+if [ -f "$STORAGE_MOUNT_POINT/wpa_supplicant.conf" ]; then
+    sudo sh -c "echo 100 > /sys/class/leds/led0/delay_on"
+    mv /etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf.bak
+    mv "$STORAGE_MOUNT_POINT/wpa_supplicant.conf" /etc/wpa_supplicant/wpa_supplicant.conf
+    reboot
+fi
 
 gpio -g blink 21 &
 pid_blink=$!

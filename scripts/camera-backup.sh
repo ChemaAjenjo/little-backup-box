@@ -20,6 +20,7 @@
 # Specify a storage device and its mount point
 HOME_DIR="/home/pi/BACKUP" # Home directory path
 SHUTD="5" # Minutes to wait before shutdown due to inactivity
+LOG="/home/pi/camera-backup_$(date -d "today" +"%Y%m%d%H%M").log"
 
 # Set the ACT LED to heartbeat
 sudo sh -c "echo heartbeat > /sys/class/leds/led0/trigger"
@@ -54,9 +55,20 @@ mkdir -p $STORAGE_MOUNT_POINT
 # Switch to STORAGE_MOUNT_POINT and transfer files from the camera
 # Rename the transferred files using the YYYYMMDD-HHMMSS format
 cd $STORAGE_MOUNT_POINT
-gphoto2 --get-all-files --skip-existing --filename=%Y%m%d-%H%M%S.%C
+gphoto2 -v --get-all-files --skip-existing --filename=%Y%m%d-%H%M%S.%C >> $LOG
 
 sudo kill $pid_blink > /dev/null
+
+# Check if internet connection exist
+wget -q --spider http://google.com
+# Upload files from $BACKUP_PATH to remote server only with internet connection
+if [ $? -eq 0 ]; then
+  cd $(dirname $0)
+  cd ..
+  source network.conf
+  curl -s -F chat_id="$CHATID" -F document=@"$LOG" https://api.telegram.org/bot$TOKEN/sendDocument > /dev/null
+  [ $? -eq 0 ] && { rm "$LOG"; }
+fi
 
 # Shutdown
 shutdown -h now 

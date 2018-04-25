@@ -25,48 +25,65 @@
 	 text-align: center;
      }
      #btn {
-         width: 11em;  height: 2em;
-         background: #3399ff;
-         border-radius: 5px;
-         color: #fff;
-         font-family: 'Lato', sans-serif; font-size: 25px; font-weight: 900;
-         letter-spacing: 3px;
-         border:none;
+        border-radius: 10px;
+        letter-spacing: 3px;
+        cursor:pointer;
+        width: 275px;
+        height: 100px;
+        border: 3px solid;
      }
      #btn.orange {
-         background: #ff9900;
+         border-color: #ff9900;
      }
      #btn.red {
-         background: #cc0000;
+        border-color: #cc0000;
      }
 	 #btn.green {
-         background: green;
+         border-color: green;
      }
+	 #btn.blue {
+		border-color: #3399ff;
+	 }
+	 #btn.btn-reader-backup {
+        background:url(/static/reader-backup.png) no-repeat;
+     }
+	 #btn.btn-camera-backup {
+        background:url(/static/camera-backup.png) no-repeat;
+     }
+	 #btn.btn-device-backup {
+        background:url(/static/device-backup.png) no-repeat;
+     }
+	 #btn.btn-card-backup {
+        background:url(/static/card-backup.png) no-repeat;
+     }
+	 #btn.btn-network-backup {
+        background:url(/static/network-backup.png) no-repeat;
+     }
+	 #btn.btn-device-2-network-backup {
+        background:url(/static/device-2-network-backup.png) no-repeat;
+     }
+	 #btn.btn-shutdown{
+        background: url(/static/shutdown.png) no-repeat;
+		background-color: #cc0000;
+	 }
     </style> 
 </head>
 <title>Little Backup Box</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <form method="POST" action="/">
     <div id="content">
-	<div id="header"><img src="static/ichigo.svg" height="39px" alt="Ichigo" align="">{{hostname}}</div>
+	<div id="header"><h2>{{hostname}}</h2></div>
 	<p class="center">Free disk space on <i>/home</i>: <b>{{freespace_home}}</b> GB</p>
 	<hr>
 	<div id="header">Internal Storage</div>
-	<p class="left">Transfer files directly from the connected camera</p>
-	<p><input id="btn" name="camerabackup" type="submit" value="Camera backup"></p>
-	<p class="left">Transfer files directly from the connected card reader (supports multiple reader card)</p>
-	<p><input id="btn" name="readerbackup" type="submit" value="Reader backup"></p>
+	<p><input id="btn" class ="btn-camera-backup blue" name="camerabackup" type="submit" value=""></p>
+	<p><input id="btn" class ="btn-reader-backup blue" name="readerbackup" type="submit" value = ""></p>
 	<div id="header">External Storage</div>
-	<p class="left">Back up the internal storage files to an external storage device. <b>Warning:</b> remove files in the internal storage</p>
-	<p><input id="btn" class="orange" name="devicebackup" type="submit" value="Device backup"></p>
-	<!-- p class="left">Back up a storage card connected via a card reader to an external storage device</p>
-	<p><input id="btn" class="orange" name="cardbackup" type="submit" value="Card backup"></p-->
+	<p><input id="btn" class="btn-device-backup orange" name="devicebackup" type="submit" value=""></p>
+	<p><input id="btn" class="btn-card-backup orange" name="cardbackup" type="submit" value=""></p>
 	<div id="header">Network Storage</div>
-	<p class="left">Back up files from the internal storage to a cloud storage service. Requiered rclone configuration.</p>
-	<p><input id="btn" class="green" name="networkbackup" type="submit" value="Cloud backup"></p>
-	<p class="left">Upload files from the external storage to a cloud storage service. Requiered rclone configuration.</p>
-	<p><input id="btn" class="green" name="device-2-network-backup" type="submit" value="Device2Cloud"></p>
+	<p><input id="btn" class="btn-network-backup green" name="networkbackup" type="submit" value=""></p>
+	<p><input id="btn" class="btn-device-2-network-backup green" name="device-2-network-backup" type="submit" value=""></p>
 	<hr>
-	<p class="left">Shut down the Little Backup Box</p>
-	<p><input id="btn" class="red" name="shutdown" value="Shut down" type="submit" /></p>
+	<p><input id="btn" class="btn-shutdown red" name="shutdown" value="" type="submit" /></p>
     </div>
