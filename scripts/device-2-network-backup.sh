@@ -24,7 +24,7 @@ set -x
 STORAGE_DEV="sda1" # Name of the storage device
 STORAGE_MOUNT_POINT="/media/storage" # Mont point of the storage device
 SHUTD="5" # Minutes to wait before shutdown due to inactivity
-
+LOG="/home/pi/device-2-network-backup_$(date -d "today" +"%Y%m%d%H%M").log"
 # Set the ACT LED to heartbeat
 sudo sh -c "echo heartbeat > /sys/class/leds/led0/trigger"
 
