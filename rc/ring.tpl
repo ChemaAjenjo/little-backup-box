@@ -19,5 +19,5 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
     <div class="centered">
 <img src="static/ring.svg"/>
-<div class="header">{{process}}</div>
+<div class="header">{{processname}}</div>
     </div>
