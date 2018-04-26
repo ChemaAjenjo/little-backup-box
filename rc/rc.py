@@ -25,7 +25,7 @@ def remote_control():
     
     if (request.POST.get("cardbackup")):
         process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/card-backup.sh", shell=True)
-        return template('exit.tpl')
+        return template('card-backup.tpl')
     if (request.POST.get("camerabackup")):
         process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/camera-backup.sh", shell=True)
         return template('exit.tpl')
