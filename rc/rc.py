@@ -31,16 +31,16 @@ def remote_control():
         return template('exit.tpl')
     if (request.POST.get("devicebackup")):
         process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/device-backup.sh", shell=True)
-        return ('Transfer started. You can close this page.')
+        return template('ring.tpl')
     if (request.POST.get("readerbackup")):
         process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/reader-backup.sh", shell=True)
-        return ('Transfer started. You can close this page.')
+        return template('ring.tpl')
     if (request.POST.get("networkbackup")):
         process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/network-backup.sh", shell=True)
-        return ('Transfer started. You can close this page.')
+        return template('ring.tpl')
     if (request.POST.get("device-2-network-backup")):
         process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/device-2-network-backup.sh", shell=True)
-        return ('Transfer started. You can close this page.')
+        return template('ring.tpl')
     if (request.POST.get("shutdown")):
         process = subprocess.Popen("sudo shutdown -h now", shell=True)
         return template('exit.tpl')
