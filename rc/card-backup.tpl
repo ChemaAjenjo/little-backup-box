@@ -5,6 +5,7 @@
   position: fixed;
   top: 50%;
   left: 50%;
+  width: 275px;
   margin-top: -50px;
   margin-left: -100px;
 }
