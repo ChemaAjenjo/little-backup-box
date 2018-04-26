@@ -28,19 +28,19 @@ def remote_control():
         return template('card-backup.tpl')
     if (request.POST.get("camerabackup")):
         process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/camera-backup.sh", shell=True)
-        return template('exit.tpl')
+        return template('ring.tpl', processname='CAMERA-BACKUP')
     if (request.POST.get("devicebackup")):
         process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/device-backup.sh", shell=True)
-        return template('ring.tpl')
+        return template('ring.tpl', processname='DEVICE-BACKUP')
     if (request.POST.get("readerbackup")):
         process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/reader-backup.sh", shell=True)
-        return template('ring.tpl')
+        return template('ring.tpl', processname='READER-BACKUP')
     if (request.POST.get("networkbackup")):
         process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/network-backup.sh", shell=True)
-        return template('ring.tpl')
+        return template('ring.tpl', processname='NETWORK-BACKUP')
     if (request.POST.get("device-2-network-backup")):
         process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/device-2-network-backup.sh", shell=True)
-        return template('ring.tpl')
+        return template('ring.tpl', processname='DEVICE-2-NETWORK-BACKUP')
     if (request.POST.get("shutdown")):
         process = subprocess.Popen("sudo shutdown -h now", shell=True)
         return template('exit.tpl')
