@@ -15,13 +15,18 @@ p.center {
   margin-top: -50px;
   margin-left: -100px;
      }
+     
+     #header {
+	 font: bold 1.7em/2em 'Lato', sans-serif;
+	 text-align: center;
+     }
 </style>
 </head>
 <title>Little Backup Box</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <div id="content">
-<p class="center">
-<b>Modo Card-backup</b></p>
+<div id="header">
+<b>CARD-BACKUP</b></div>
 <p>
 <ol>
 <li>Cuando el led parpadee conecta el disco duro</li>
