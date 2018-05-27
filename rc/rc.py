@@ -41,6 +41,9 @@ def remote_control():
     if (request.POST.get("device-2-network-backup")):
         process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/device-2-network-backup.sh", shell=True)
         return template('ring.tpl', processname='DEVICE-2-NETWORK-BACKUP')
+    if (request.POST.get("confignetwork")):
+        process = subprocess.Popen("sudo /home/pi/little-backup-box/scripts/config-network.sh", shell=True)
+        return template('ring.tpl', processname='Configuring network connection...')
     if (request.POST.get("shutdown")):
         process = subprocess.Popen("sudo shutdown -h now", shell=True)
         return template('exit.tpl')

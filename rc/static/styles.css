@@ -16,7 +16,7 @@ h2 {
 margin: 5 auto;
 }
 #content {
-	 font: 1em/1.5em 'Lato', sans-serif;
+    font: 1em/1.5em 'Lato', sans-serif;
     margin: 0px auto;
     width: 275px;
     text-align: left;
@@ -45,6 +45,10 @@ margin-left: -100px;
 }
 #btn.red {
    border-color: #cc0000;
+   background-color: #cc0000;
+   font-family: 'Lato', sans-serif;
+   font-size: 24px;
+   color: white;
 }
 #btn.green {
     border-color: green;
@@ -72,9 +76,9 @@ margin-left: -100px;
 }
 #btn.btn-shutdown{
    background: url(shutdown.png) no-repeat;
-	background-color: #cc0000;
+   background-color: #cc0000;
 }
-     #dialog {
+#dialog {
          width: auto;  height: auto;
          background: #009933;
          border-radius: 5px;
