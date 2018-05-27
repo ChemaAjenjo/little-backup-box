@@ -25,17 +25,6 @@ sudo sh -c "echo heartbeat > /sys/class/leds/led0/trigger"
 # Set gpio 21 in mode out
 gpio -g mode 21 out
 
-# If there is a wpa_supplicant.conf file in the root of the storage device
-# Rename the original config file,
-# move wpa_supplicant.conf from the card to /etc/wpa_supplicant/
-# Reboot to enable networking
-if [ -f "/dev/sda1/wpa_supplicant.conf" ]; then
-    sudo sh -c "echo 100 > /sys/class/leds/led0/delay_on"
-    mv /etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf.bak
-    mv "/dev/sda1/wpa_supplicant.conf" /etc/wpa_supplicant/wpa_supplicant.conf
-    reboot
-fi
-
 # Set the ACT LED to blink at 1000ms to indicate that the storage device has been mounted
 sudo sh -c "echo timer > /sys/class/leds/led0/trigger"
 sudo sh -c "echo 1000 > /sys/class/leds/led0/delay_on"
@@ -51,7 +40,7 @@ if [ $? -eq 0 ]; then
   cd $(dirname $0)
   cd ..
   source network.conf
-  rclone -v --log-file="$LOG" --no-check-certificate sync $HOME_DIR $REMOTE_PATH
+  rclone -v --log-file="$LOG" --no-check-certificate copy $HOME_DIR $REMOTE_PATH
   curl -s -F chat_id="$CHATID" -F document=@"$LOG" https://api.telegram.org/bot$TOKEN/sendDocument > /dev/null
   [ $? -eq 0 ] && { rm "$LOG"; }
 fi
