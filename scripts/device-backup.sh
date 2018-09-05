@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -59,7 +61,7 @@ sudo sh -c "echo 1000 > /sys/class/leds/led0/delay_on"
 mkdir -p $STORAGE_MOUNT_POINT/BACKUP
 
 # Perform backup using rsync
-rsync -av --log-file="$LOG" $SOURCE_DIR $STORAGE_MOUNT_POINT/BACKUP
+rsync -av --log-file="$LOG"  --exclude "*.id" --exclude "*.dat" --exclude "IndexerVolumeGuid" $SOURCE_DIR $STORAGE_MOUNT_POINT/BACKUP
 
 # Remove local backup folder
 [ $? -eq 0 ] && { rm -rf $SOURCE_DIR/*; }

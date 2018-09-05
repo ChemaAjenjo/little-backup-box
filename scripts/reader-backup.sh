@@ -65,6 +65,7 @@ mkdir -p $HOME_DIR
 
 # If the card reader is detected, mount it and obtain its UUID
 if [ ! -z $CARD_READER ]; then
+  
   mount /dev/$CARD_DEV $CARD_MOUNT_POINT
   # # Set the ACT LED to blink at 500ms to indicate that the card has been mounted
   sudo sh -c "echo 500 > /sys/class/leds/led0/delay_on"
@@ -86,11 +87,14 @@ if [ ! -z $CARD_READER ]; then
   BACKUP_PATH=$HOME_DIR/"$LABEL"/"$ID"
   
   # Perform backup using rsync
-  rsync -av --log-file="$LOG" --exclude "*.id" $CARD_MOUNT_POINT/ $BACKUP_PATH
-
+  rsync -av --log-file="$LOG" --exclude "*.id" --exclude "*.dat" --exclude "IndexerVolumeGuid" $CARD_MOUNT_POINT/ $BACKUP_PATH
+  
+  chmod -R a=rwx $BACKUP_PATH
   # Turn off the ACT LED to indicate that the backup is completed
   sudo sh -c "echo 0 > /sys/class/leds/led0/brightness"
 fi
+
+
 
 # If the microcard reader is detected
 if [ ! -z $MICROSD_READER ]; then
@@ -113,10 +117,11 @@ if [ ! -z $MICROSD_READER ]; then
   
   # Set the backup path
   BACKUP_PATH=$HOME_DIR/"$LABEL"/"$ID"
-  
+   
   # Perform backup using rsync
-  rsync -av --log-file="$LOG" --exclude "*.id" $MICROSD_MOUNT_POINT/ $BACKUP_PATH
-
+  rsync -av --log-file="$LOG" --exclude "*.id" --exclude "*.dat" --exclude "IndexerVolumeGuid" $MICROSD_MOUNT_POINT/ $BACKUP_PATH
+  
+  chmod -R a=rwx $BACKUP_PATH
   # Turn off the ACT LED to indicate that the backup is completed
   sudo sh -c "echo 0 > /sys/class/leds/led0/brightness"
 fi
@@ -134,6 +139,8 @@ if [ $? -eq 0 ]; then
   curl -s -F chat_id="$CHATID" -F document=@"$LOG" https://api.telegram.org/bot$TOKEN/sendDocument > /dev/null
   [ $? -eq 0 ] && { rm "$LOG"; }
 fi
+
+chmod -R a=rwx $HOME_DIR
 
 # Shutdown
 sync

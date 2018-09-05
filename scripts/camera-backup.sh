@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -49,8 +51,14 @@ pid_blink=$!
 # Obtain camera model
 # Create the target directory with the camera model as its name
 CAMERA=$(gphoto2 --summary | grep "Model" | cut -d: -f2 | tr -d '[:space:]')
+NUM_FILES=$(gphoto2 --summary | grep "Images" | cut -d: -f2 | tr -d '[:space:]')
 STORAGE_MOUNT_POINT="$HOME_DIR/$CAMERA"
 mkdir -p $STORAGE_MOUNT_POINT
+
+#create files with info for screen
+echo $STORAGE_MOUNT_POINT > /tmp/BACKUP_PATH
+echo $NUM_FILES > /tmp/NUM_FILES
+echo $CAMERA > /tmp/DEVICE
 
 # Switch to STORAGE_MOUNT_POINT and transfer files from the camera
 # Rename the transferred files using the YYYYMMDD-HHMMSS format
@@ -69,6 +77,8 @@ if [ $? -eq 0 ]; then
   curl -s -F chat_id="$CHATID" -F document=@"$LOG" https://api.telegram.org/bot$TOKEN/sendDocument > /dev/null
   [ $? -eq 0 ] && { rm "$LOG"; }
 fi
+
+chmod -R a=rwx $HOME_DIR
 
 # Shutdown
 shutdown -h now 

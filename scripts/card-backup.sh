@@ -86,6 +86,7 @@ if [ ! -z $CARD_READER ]; then
   BACKUP_PATH=$STORAGE_MOUNT_POINT/"$ID"
   
   # Perform backup using rsync
+  python /home/pi/Adafruit_Python_SSD1306/examples/progress.py "Copiando Tarjeta..." $CARD_MOUNT_POINT/ $BACKUP_PATH &
   rsync -ah --exclude "*.id" $CARD_MOUNT_POINT/ $BACKUP_PATH
 
   # Turn off the ACT LED to indicate that the backup is completed
