@@ -37,7 +37,7 @@ gpio -g mode 21 out
 sudo shutdown -h $SHUTD "Shutdown is activated. To cancel: sudo shutdown -c"
 
 # Wait for a USB storage device (e.g., a USB flash drive)
-STORAGE=$(ls /dev/* | grep $STORAGE_DEV | cut -d"/" -f3)
+STORAGE=$(ls /dev/* | grep "$STORAGE_DEV" | cut -d"/" -f3)
 while [ -z ${STORAGE} ]
   do
   sleep 1
@@ -46,7 +46,7 @@ while [ -z ${STORAGE} ]
 done
 
 # When the USB storage device is detected, mount it
-mount /dev/$STORAGE_DEV $STORAGE_MOUNT_POINT
+mount /dev/"$STORAGE_DEV" "$STORAGE_MOUNT_POINT"
 
 # Cancel shutdown
 sudo shutdown -c

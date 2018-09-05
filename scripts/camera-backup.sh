@@ -35,7 +35,7 @@ sudo shutdown -h $SHUTD "Shutdown is activated. To cancel: sudo shutdown -c"
 
 # Wait for camera
 DEVICE=$(gphoto2 --auto-detect | grep usb | cut -b 36-42 | sed 's/,/\//')
-while [ -z ${DEVICE} ]
+while [ -z "${DEVICE}" ]
 	do
 	sleep 1
 	DEVICE=$(gphoto2 --auto-detect | grep usb | cut -b 36-42 | sed 's/,/\//')
@@ -53,7 +53,7 @@ pid_blink=$!
 CAMERA=$(gphoto2 --summary | grep "Model" | cut -d: -f2 | tr -d '[:space:]')
 NUM_FILES=$(gphoto2 --summary | grep "Images" | cut -d: -f2 | tr -d '[:space:]')
 STORAGE_MOUNT_POINT="$HOME_DIR/$CAMERA"
-mkdir -p $STORAGE_MOUNT_POINT
+mkdir -p "$STORAGE_MOUNT_POINT"
 
 #create files with info for screen
 echo $STORAGE_MOUNT_POINT > /tmp/BACKUP_PATH
