@@ -74,25 +74,6 @@ case $CHOICE in
             crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/rc.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
             crontab -l | { cat; echo "@reboot java -jar /home/pi/little-backup-box/LittleBackupBot-1.0.0.jar >> /home/pi/little-backup-box.log 2>&1"; } | crontab
             
-           	CONFIG_FILE="/home/pi/little-backup-box/config/little-backup-bot.properties"
-            mkdir -p /home/pi/little-backup-box/config
-            
-            exec 3>&1                                                                                                                                                                                                     
-			TOKEN=$(dialog --clear --title "Configurating Telegram Bot" --inputbox "Enter TOKEN" 8 40 2>&1 1>&3)
-			echo 'bot.token:"'$TOKEN'"' >> $CONFIG_FILE                                                                                                                                                                                                                                                                                                       
-			exec 3>&-                                                                                                                                                                                                     
-
-            
-            exec 3>&1                                                                                                                                                                                                     
-			USERNAME=$(dialog --clear --title "Configurating Telegram Bot" --inputbox "Enter USERNAME" 8 40 2>&1 1>&3)
-			echo 'bot.username:"'$USERNAME'"' >> $CONFIG_FILE                                                                                                                                                                                                                                                                                                       
-			exec 3>&-    
-            
-            exec 3>&1                                                                                                                                                                                                     
-			CREATOR_ID=$(dialog --clear --title "Configurating Telegram Bot" --inputbox "Enter CREATOR_ID" 8 40 2>&1 1>&3)
-			echo 'bot.creatorid:"'$CREATOR_ID'"' >> $CONFIG_FILE                                                                                                                                                                                                                                                                                                       
-			exec 3>&-  
-			        
         ;;
         3)
             crontab -l | { cat; echo "@reboot gpio -g mode 21 out && gpio -g write 21 1"; } | crontab
