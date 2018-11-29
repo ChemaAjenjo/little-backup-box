@@ -26,8 +26,6 @@ MICROSD_DEV="sdb1" # Name of the storage card
 MICROSD_MOUNT_POINT="/media/microsd" # Mount point of the storage card
 CARD_DEV="sda1" # Name of the storage card
 CARD_MOUNT_POINT="/media/card" # Mount point of the storage card
-SHUTD="5" # Minutes to wait before shutdown due to inactivity
-LOG="/home/pi/reader-backup_$(date -d "today" +"%Y%m%d%H%M").log"
 
 # Set the ACT LED to heartbeat
 sudo sh -c "echo heartbeat > /sys/class/leds/led0/trigger"
@@ -87,7 +85,7 @@ if [ ! -z $CARD_READER ]; then
   BACKUP_PATH=$HOME_DIR/"$LABEL"/"$ID"
   
   # Perform backup using rsync
-  rsync -av --log-file="$LOG" --exclude "*.id" --exclude "*.dat" --exclude "IndexerVolumeGuid" $CARD_MOUNT_POINT/ $BACKUP_PATH
+  rsync -av --exclude "*.id" --exclude "*.dat" --exclude "IndexerVolumeGuid" $CARD_MOUNT_POINT/ $BACKUP_PATH
   
   chmod -R a=rwx $BACKUP_PATH
   # Turn off the ACT LED to indicate that the backup is completed
@@ -119,7 +117,7 @@ if [ ! -z $MICROSD_READER ]; then
   BACKUP_PATH=$HOME_DIR/"$LABEL"/"$ID"
    
   # Perform backup using rsync
-  rsync -av --log-file="$LOG" --exclude "*.id" --exclude "*.dat" --exclude "IndexerVolumeGuid" $MICROSD_MOUNT_POINT/ $BACKUP_PATH
+  rsync -av --exclude "*.id" --exclude "*.dat" --exclude "IndexerVolumeGuid" $MICROSD_MOUNT_POINT/ $BACKUP_PATH
   
   chmod -R a=rwx $BACKUP_PATH
   # Turn off the ACT LED to indicate that the backup is completed
@@ -128,17 +126,6 @@ fi
 
 # Stop led blink
 sudo kill $pid_blink > /dev/null
-
-# Check if internet connection exist
-wget -q --spider http://google.com
-# Upload files from $BACKUP_PATH to remote server only with internet connection
-if [ $? -eq 0 ]; then
-  cd $(dirname $0)
-  cd ..
-  source network.conf
-  curl -s -F chat_id="$CHATID" -F document=@"$LOG" https://api.telegram.org/bot$TOKEN/sendDocument > /dev/null
-  [ $? -eq 0 ] && { rm "$LOG"; }
-fi
 
 chmod -R a=rwx $HOME_DIR
 

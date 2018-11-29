@@ -59,7 +59,7 @@ CHOICE=$(dialog --clear \
 clear
 case $CHOICE in
         1)
-            #crontab -l | { cat; echo "@reboot gpio -g mode 21 out && gpio -g write 21 1"; } | crontab
+            crontab -l | { cat; echo "@reboot gpio -g mode 21 out && gpio -g write 21 1"; } | crontab
             crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/card-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
             crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/camera-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
             crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/reader-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
@@ -67,7 +67,7 @@ case $CHOICE in
             crontab -l | { cat; echo "#@reboot java -jar /home/pi/little-backup-box/LittleBackupBot-1.0.0.jar >> /home/pi/little-backup-box.log 2>&1"; } | crontab
         ;;
         2)
-            #crontab -l | { cat; echo "@reboot gpio -g mode 21 out && gpio -g write 21 1"; } | crontab
+            crontab -l | { cat; echo "@reboot gpio -g mode 21 out && gpio -g write 21 1"; } | crontab
             crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/card-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
             crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/camera-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
             crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/reader-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
@@ -75,7 +75,7 @@ case $CHOICE in
             crontab -l | { cat; echo "@reboot java -jar /home/pi/little-backup-box/LittleBackupBot-1.0.0.jar >> /home/pi/little-backup-box.log 2>&1"; } | crontab
         ;;
         3)
-            #crontab -l | { cat; echo "@reboot gpio -g mode 21 out && gpio -g write 21 1"; } | crontab
+            crontab -l | { cat; echo "@reboot gpio -g mode 21 out && gpio -g write 21 1"; } | crontab
             crontab -l | { cat; echo "@reboot sudo /home/pi/little-backup-box/scripts/card-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
             crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/camera-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
             crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/reader-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
@@ -83,7 +83,7 @@ case $CHOICE in
             crontab -l | { cat; echo "#@reboot java -jar /home/pi/little-backup-box/LittleBackupBot-1.0.0.jar >> /home/pi/little-backup-box.log 2>&1"; } | crontab
         ;;
         4)
-            #crontab -l | { cat; echo "@reboot gpio -g mode 21 out && gpio -g write 21 1"; } | crontab
+            crontab -l | { cat; echo "@reboot gpio -g mode 21 out && gpio -g write 21 1"; } | crontab
             crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/card-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
             crontab -l | { cat; echo "@reboot sudo /home/pi/little-backup-box/scripts/camera-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
             crontab -l | { cat; echo "@reboot sudo /home/pi/little-backup-box/scripts/reader-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
@@ -91,7 +91,7 @@ case $CHOICE in
             crontab -l | { cat; echo "#@reboot java -jar /home/pi/little-backup-box/LittleBackupBot-1.0.0.jar >> /home/pi/little-backup-box.log 2>&1"; } | crontab
         ;;
         5)
-            #crontab -l | { cat; echo "@reboot gpio -g mode 21 out && gpio -g write 21 1"; } | crontab
+            crontab -l | { cat; echo "@reboot gpio -g mode 21 out && gpio -g write 21 1"; } | crontab
             crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/card-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
             crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/camera-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
             crontab -l | { cat; echo "@reboot sudo /home/pi/little-backup-box/scripts/reader-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab

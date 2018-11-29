@@ -18,7 +18,6 @@
 # to install the required packages and configure the system.
 
 HOME_DIR="/home/pi/BACKUP/" # Home directory path
-LOG="/home/pi/network-backup_$(date -d "today" +"%Y%m%d%H%M").log"
 # Set the ACT LED to heartbeat
 sudo sh -c "echo heartbeat > /sys/class/leds/led0/trigger"
 
@@ -40,9 +39,7 @@ if [ $? -eq 0 ]; then
   cd $(dirname $0)
   cd ..
   source network.conf
-  rclone -v --log-file="$LOG" --no-check-certificate copy $HOME_DIR $REMOTE_PATH
-  curl -s -F chat_id="$CHATID" -F document=@"$LOG" https://api.telegram.org/bot$TOKEN/sendDocument > /dev/null
-  [ $? -eq 0 ] && { rm "$LOG"; }
+  rclone -v --no-check-certificate copy $HOME_DIR $REMOTE_PATH
 fi
 # Turn off the ACT LED to indicate that the backup is completed
 sudo sh -c "echo 0 > /sys/class/leds/led0/brightness"

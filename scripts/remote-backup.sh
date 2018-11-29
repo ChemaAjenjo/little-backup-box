@@ -20,7 +20,7 @@
 # Create a new configuraion file if it doesn't exist
 # and prompt for required values
 
-CONFIG_DIR=$(dirname "$0")
+CONFIG_DIR=$(dirname "$0")/config
 CONFIG="${CONFIG_DIR}/remote-backup.cfg"
 
 if [ ! -f "$CONFIG" ]; then
@@ -74,15 +74,8 @@ sudo sh -c "echo 1000 > /sys/class/leds/led0/delay_on"
 # Perform backup using rsync
 rsync -avhz -e ssh --delete --progress "$STORAGE_MOUNT_POINT"/ "$USER"@"$REMOTE":"$BACKUP_DIR"
 
-if [ ! -z "$NOTIFY_TOKEN" ]; then
-	TEXT=$(sed 's/ /%20/g' <<< "Remote backup completed.")
-	curl -k \
-"https://us-central1-notify-b7652.cloudfunctions.net/sendNotification?to=${NOTIFY_TOKEN}&text=${TEXT}" \
-> /dev/null
-fi
-
-  # Turn off the ACT LED to indicate that the backup is completed
-  sudo sh -c "echo 0 > /sys/class/leds/led0/brightness"
+# Turn off the ACT LED to indicate that the backup is completed
+sudo sh -c "echo 0 > /sys/class/leds/led0/brightness"
 
 # Shutdown
 sync

@@ -25,7 +25,6 @@ STORAGE_DEV="sda1" # Name of the storage device
 STORAGE_MOUNT_POINT="/media/storage" # Mount point of the storage device
 SOURCE_DIR="/home/pi/BACKUP/"
 SHUTD="5" # Minutes to wait before shutdown due to inactivity
-LOG="/home/pi/device-backup_$(date -d "today" +"%Y%m%d%H%M").log"
 
 # Set the ACT LED to heartbeat
 sudo sh -c "echo heartbeat > /sys/class/leds/led0/trigger"
@@ -61,7 +60,7 @@ sudo sh -c "echo 1000 > /sys/class/leds/led0/delay_on"
 mkdir -p $STORAGE_MOUNT_POINT/BACKUP
 
 # Perform backup using rsync
-rsync -av --log-file="$LOG"  --exclude "*.id" --exclude "*.dat" --exclude "IndexerVolumeGuid" $SOURCE_DIR $STORAGE_MOUNT_POINT/BACKUP
+rsync -av --exclude "*.id" --exclude "*.dat" --exclude "IndexerVolumeGuid" $SOURCE_DIR $STORAGE_MOUNT_POINT/BACKUP
 
 # Remove local backup folder
 [ $? -eq 0 ] && { rm -rf $SOURCE_DIR/*; }
@@ -70,17 +69,6 @@ rsync -av --log-file="$LOG"  --exclude "*.id" --exclude "*.dat" --exclude "Index
 sudo sh -c "echo 0 > /sys/class/leds/led0/brightness"
 
 sudo kill $pid_blink > /dev/null
-
-# Check if internet connection exist
-wget -q --spider http://google.com
-# Upload files from $BACKUP_PATH to remote server only with internet connection
-if [ $? -eq 0 ]; then
-  cd $(dirname $0)
-  cd ..
-  source network.conf
-  curl -s -F chat_id="$CHATID" -F document=@"$LOG" https://api.telegram.org/bot$TOKEN/sendDocument > /dev/null
-  [ $? -eq 0 ] && { rm "$LOG"; }
-fi
 
 # Shutdown
 sync
