@@ -77,12 +77,22 @@ case $CHOICE in
            	CONFIG_FILE="/home/pi/little-backup-box/config/little-backup-bot.properties"
             mkdir -p /home/pi/little-backup-box/config
             
-            TOKEN=$(dialog --title "Configurating Telegram Bot" --inputbox "Enter TOKEN" 8 40)
-            echo 'bot.token:"'$TOKEN'"' >> $CONFIG_FILE
-            USERNAME=$(dialog --title "Configurating Telegram Bot" --inputbox "Enter USERNAME" 8 40)
-            echo 'bot.username:"'$USERNAME'"' >> $CONFIG_FILE
-            CREATOR_ID=$(dialog --title "Configurating Telegram Bot" --inputbox "Enter CREATOR_ID" 8 40)
-            echo 'bot.username:"'$CREATOR_ID'"' >> $CONFIG_FILE           
+            exec 3>&1                                                                                                                                                                                                     
+			TOKEN=$(dialog --clear --title "Configurating Telegram Bot" --inputbox "Enter TOKEN" 8 40 2>&1 1>&3)
+			echo 'bot.token:"'$TOKEN'"' >> $CONFIG_FILE                                                                                                                                                                                                                                                                                                       
+			exec 3>&-                                                                                                                                                                                                     
+
+            
+            exec 3>&1                                                                                                                                                                                                     
+			USERNAME=$(dialog --clear --title "Configurating Telegram Bot" --inputbox "Enter USERNAME" 8 40 2>&1 1>&3)
+			echo 'bot.username:"'$USERNAME'"' >> $CONFIG_FILE                                                                                                                                                                                                                                                                                                       
+			exec 3>&-    
+            
+            exec 3>&1                                                                                                                                                                                                     
+			CREATOR_ID=$(dialog --clear --title "Configurating Telegram Bot" --inputbox "Enter CREATOR_ID" 8 40 2>&1 1>&3)
+			echo 'bot.creatorid:"'$CREATOR_ID'"' >> $CONFIG_FILE                                                                                                                                                                                                                                                                                                       
+			exec 3>&-  
+			        
         ;;
         3)
             crontab -l | { cat; echo "@reboot gpio -g mode 21 out && gpio -g write 21 1"; } | crontab
