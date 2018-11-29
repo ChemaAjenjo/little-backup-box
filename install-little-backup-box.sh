@@ -19,7 +19,7 @@ sudo apt install acl git-core screen rsync exfat-fuse exfat-utils ntfs-3g gphoto
 sudo apt update
 sudo pip3 install bottle
 
-sudo curl https://rclone.org/install.sh | sudo bash
+#sudo curl https://rclone.org/install.sh | sudo bash
 
 sudo mkdir /media/card
 sudo mkdir /media/microsd
@@ -43,7 +43,7 @@ TITLE="Backup mode"
 MENU="Select the default backup mode:"
 
 OPTIONS=(1 "Remote control"
-		 2 "Telegram bot control"
+		 2 "Telegram Bot control"
          3 "Card backup (Backup from card reader to external storage)"
          4 "Camera backup (Backup from camera to internal storage)"
          5 "Device backup (Backup from device to internal storage)" )
@@ -73,6 +73,21 @@ case $CHOICE in
             crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/reader-backup.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
             crontab -l | { cat; echo "#@reboot sudo /home/pi/little-backup-box/scripts/rc.sh >> /home/pi/little-backup-box.log 2>&1"; } | crontab
             crontab -l | { cat; echo "@reboot java -jar /home/pi/little-backup-box/LittleBackupBot-1.0.0.jar >> /home/pi/little-backup-box.log 2>&1"; } | crontab
+            
+            mkdir -p /home/pi/little-backup-box/config
+            touch /home/pi/little-backup-box/config/little-backup-bot.properties
+            
+            echo "Configurating Telegram Bot"
+            echo "Enter TOKEN and press [ENTER]:"
+    		read TOKEN
+    		echo 'bot.token:"'$TOKEN'"' >> /home/pi/little-backup-box/config/little-backup-bot.properties
+    		echo "Enter USERNAME and press [ENTER]:"
+    		read USERNAME
+    		echo 'bot.username:"'$USERNAME'"' >> /home/pi/little-backup-box/config/little-backup-bot.properties
+    		echo "Enter CREATOR_ID and press [ENTER]:"
+    		read CREATOR_ID
+    		echo 'bot.creatorid:"'$CREATOR_ID'"' >> /home/pi/little-backup-box/config/little-backup-bot.properties   		
+    		            
         ;;
         3)
             crontab -l | { cat; echo "@reboot gpio -g mode 21 out && gpio -g write 21 1"; } | crontab
